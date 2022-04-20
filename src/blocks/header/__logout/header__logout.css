@@ -9,6 +9,7 @@
     margin: 0 0;
     padding: 0 0;
     height: 22px;
+    width: 65px;
 }
 
 .header__logout:hover {
