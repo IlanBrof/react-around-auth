@@ -62,19 +62,23 @@ function App() {
     if (isLoggedIn) {
       history.push('/');
     }
-  });
+  }, [isLoggedIn]);
 
   function handleRegistration(email, password) {
+    try {
     auth
       .signup(email, password)
       .then(() => {
         setRegistrationSuccess(true);
-        setIsInfoToolTipOpen(true);
         history.push('/');
       })
       .catch((err) => {
         console.log(err);
-      });
+        setRegistrationSuccess(false);
+      })}
+    finally {
+      setIsInfoToolTipOpen(true);
+    }
   }
 
   function handleLogin(email, password) {
@@ -190,7 +194,8 @@ function App() {
       .deleteCard(cardDelConfirm._id)
       .then(() => {
         setCards((state) => state.filter((c) => c._id !== cardDelConfirm._id));
-      }, closeAllPopups())
+        closeAllPopups();
+      })
       .catch((err) => {
         console.log(err);
       });
