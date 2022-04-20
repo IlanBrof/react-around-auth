@@ -1,9 +1,19 @@
 @import url('./vendor/normalize.css');
-/* @import url('./fonts/Inter_Web/inter.css'); */
+@import url('./fonts/Inter_Web/inter.css');
 @import url('./blocks/body/body.css');
 @import url('./blocks/main/main.css');
 @import url('./blocks/page-container/page-container.css');
 @import url('./blocks/header/header.css');
+@import url('./blocks/header/__alignment/header__alignment.css');
+@import url('./blocks/header/__hamburger-menu-items/header__hamburger-menu-items.css');
+@import url('./blocks/header/__hamburger-menu-items/_active/header__hamburger-menu-items_active.css');
+@import url('./blocks/header/__user/_mobile/header__user_mobile.css');
+@import url('./blocks/header/__logout/_mobile/header__logout_mobile.css');
+@import url('./blocks/header/__link/header__link-btn.css');
+@import url('./blocks/header/__user-container/header__user-container.css');
+@import url('./blocks/header/__user/header__user.css');
+@import url('./blocks/header/__logout/header__logout.css');
+@import url('./blocks/header/__hamburger-menu/header__hamburger-menu.css');
 @import url('./blocks/logo/logo.css');
 @import url('./blocks/profile-menu/profile-menu.css');
 @import url('./blocks/profile-menu/__add-button/profile-menu__add-button.css');
@@ -38,7 +48,15 @@
 @import url('./blocks/popup-menu/_opened/popup-menu_opened.css');
 @import url('./blocks/popup-menu/__error/popup-menu__error.css');
 @import url('./blocks/popup-menu/__del-confirm-container/popup-menu__del-confirm-container.css');
+@import url('./blocks/popup-menu/__tooltip-text/popup-menu__tooltip-text.css');
+@import url('./blocks/popup-menu/__tooltip-logo/popup-menu__tooltip-logo.css');
 @import url('./blocks/profile-menu/__avatar-button/profile-menu__avatar-button.css');
 @import url('./blocks/profile-menu/__profile-pic/profile-menu__profile-pic.css');
 @import url('./blocks/footer/footer.css');
 @import url('./blocks/footer/__content/footer__content.css');
+@import url('./blocks/authorisation/authorisation.css');
+@import url('./blocks/authorisation/__form/authorisation__form.css');
+@import url('./blocks/authorisation/__title/authorisation__title.css');
+@import url('./blocks/authorisation/__input/authorisation__input.css');
+@import url('./blocks/authorisation/__button/authorisation__button.css');
+@import url('./blocks/authorisation/__underline/authorisation__underline.css');

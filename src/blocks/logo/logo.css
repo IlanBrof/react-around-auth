@@ -1,8 +1,14 @@
 .logo {
-  padding-bottom: 40px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   max-width: 173px;
 }
 @media screen and (max-width: 900px) {
+  .logo {
+    margin: 0 0 0 27px;
+  }
+}
+@media screen and (max-width: 480px) {
   .logo {
     margin: 0 0 0 27px;
   }

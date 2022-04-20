@@ -20,7 +20,6 @@ function PopupWithForm(props) {
           {props.children}
             <button
               className="popup-menu__save-button"
-              id="edit-profile_save-button"
               type="submit"
             >
               {props.buttonText}

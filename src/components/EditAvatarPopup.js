@@ -29,8 +29,9 @@ function EditAvatarPopup(props) {
         ref={avatarRef}
         className="popup-menu__input popup-menu__input_type_url"
         name="link"
-        type="text"
+        type="url"
         placeholder="Profile Image link"
+        required
       />
     </PopupWithForm>
   );

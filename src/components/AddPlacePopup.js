@@ -42,14 +42,16 @@ function AddPlacePopup(props) {
         name="name"
         type="text"
         placeholder="Name"
+        required
       />
       <input
         onChange={handleCardLinkUpdate}
         value={cardLink || ''}
         className="popup-menu__input popup-menu__input_type_url"
         name="link"
-        type="text"
+        type="url"
         placeholder="Image link"
+        required
       />
     </PopupWithForm>
   );

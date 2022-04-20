@@ -1,4 +1,5 @@
 import React from 'react';
+import { Switch, Route, useHistory } from 'react-router-dom';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -9,6 +10,11 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ConfirmDelPopup from './ConfirmDelPopup';
+import Register from './Register';
+import Login from './Login';
+import ProtectedRoute from './ProtectedRoute';
+import InfoToolTip from './InfoToolTip';
+import * as auth from '../utils/auth';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
@@ -19,12 +25,85 @@ function App() {
   const [isCardImagePopupOpen, setIsCardImagePopupOpen] = React.useState(false);
   const [isConfirmDelPopupOpen, setIsConfirmDelPopupOpen] =
     React.useState(false);
+  const [isInfoToolTipOpen, setIsInfoToolTipOpen] = React.useState(false);
   const [cardData, setCardData] = React.useState({});
   const [cards, setCards] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [cardDelConfirm, setCardDelConfirm] = React.useState({});
-
   const [currentUser, setCurrentUser] = React.useState({});
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [userData, setUserData] = React.useState({});
+  const [registrationSuccess, setRegistrationSuccess] = React.useState(false);
+  const [isHamburgerMenuOpen, setIsHamburgerMenuOpen] = React.useState(false);
+
+  const history = useHistory();
+
+  React.useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      auth
+        .checkToken(jwt)
+        .then((res) => {
+          if (res) {
+            const data = {
+              email: res.data.email,
+              id: res.data._id,
+            };
+
+            setIsLoggedIn(true);
+            setUserData(data);
+          }
+        })
+        .catch((err) => console.error(err));
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if (isLoggedIn) {
+      history.push('/');
+    }
+  });
+
+  function handleRegistration(email, password) {
+    auth
+      .signup(email, password)
+      .then(() => {
+        setRegistrationSuccess(true);
+        setIsInfoToolTipOpen(true);
+        history.push('/');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function handleLogin(email, password) {
+    auth
+      .signin(email, password)
+      .then((data) => {
+        if (data) {
+          const userData = {
+            email: email,
+            token: data,
+          };
+          setUserData(userData);
+          setIsLoggedIn(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setRegistrationSuccess(false);
+        setIsInfoToolTipOpen(true);
+      });
+  }
+
+  function handleLogout() {
+    localStorage.removeItem('jwt');
+    setUserData({});
+    setIsLoggedIn(false);
+    history.push('/');
+  }
+
   React.useEffect(() => {
     api
       .getUserInfo()
@@ -150,6 +229,15 @@ function App() {
     setCardDelConfirm(card);
   }
 
+  function handleHamburgerMenuClick() {
+    if (!isHamburgerMenuOpen) { 
+      setIsHamburgerMenuOpen(true);
+    } else {
+      setIsHamburgerMenuOpen(false)
+    }
+    
+  }
+
   function handleCardData(cardData) {
     setCardData(cardData);
   }
@@ -160,6 +248,8 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsCardImagePopupOpen(false);
     setIsConfirmDelPopupOpen(false);
+    setIsInfoToolTipOpen(false);
+    setIsHamburgerMenuOpen(false);
   }
 
   React.useEffect(() => {
@@ -174,22 +264,58 @@ function App() {
     return () => document.removeEventListener('keydown', closeByEscape);
   }, []);
 
+  React.useEffect(() => {
+    const closeByClick = (e) => {
+      if (e.target.classList.contains('popup-menu')) {
+        closeAllPopups();
+      }
+    };
+
+    document.addEventListener('click', closeByClick);
+
+    return () => document.removeEventListener('click', closeByClick);
+  }, []);
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page-container">
-        <Header />
-        <Main
-          onEditProfileClick={handleEditProfilePopupClick}
-          onAddCardClick={handleAddCardPopupClick}
-          onEditAvatarClick={handleEditAvatarPopupClick}
-          onCardImageClick={handleCardImagePopupClick}
-          updateCardData={handleCardData}
-          cards={cards}
-          onCardLike={handleCardLike}
-          onCardDelete={handleConfirmDelPopupClick}
-          loading={loading}
-        />
+        <Switch>
+          <Route path="/login">
+            <Header type="login" />
+            <Login handleLogin={handleLogin} />
+          </Route>
+          <Route path="/signup">
+            <Header type="signup" />
+            <Register handleRegistration={handleRegistration} />
+          </Route>
 
+          <ProtectedRoute path="/" isLoggedIn={isLoggedIn}>
+            <Header
+              email={userData.email}
+              handleLogout={handleLogout}
+              onHamburgerMenuClick={handleHamburgerMenuClick}
+              isOpen={isHamburgerMenuOpen}
+            />
+            <Main
+              onEditProfileClick={handleEditProfilePopupClick}
+              onAddCardClick={handleAddCardPopupClick}
+              onEditAvatarClick={handleEditAvatarPopupClick}
+              onCardImageClick={handleCardImagePopupClick}
+              updateCardData={handleCardData}
+              cards={cards}
+              onCardLike={handleCardLike}
+              onCardDelete={handleConfirmDelPopupClick}
+              loading={loading}
+            />
+
+            <Footer />
+          </ProtectedRoute>
+        </Switch>
+        <InfoToolTip
+          isOpen={isInfoToolTipOpen}
+          onClose={closeAllPopups}
+          registrationSuccess={registrationSuccess}
+        />
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
@@ -219,8 +345,6 @@ function App() {
           onClose={closeAllPopups}
           onSubmit={handleCardDelete}
         />
-
-        <Footer />
       </div>
     </CurrentUserContext.Provider>
   );
