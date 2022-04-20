@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/react-around-auth/static/css/main.4647b678.css",
+    "main.css": "/react-around-auth/static/css/main.ade4793d.css",
     "main.js": "/react-around-auth/static/js/main.1f62b2d8.js",
     "static/media/Inter-Black.woff?v=3.19": "/react-around-auth/static/media/Inter-Black.c6938660eec019fefd68.woff",
     "static/media/Inter-Regular.woff?v=3.19": "/react-around-auth/static/media/Inter-Regular.8c206db99195777c6769.woff",
@@ -19,11 +19,11 @@
     "static/media/profile_edit.svg": "/react-around-auth/static/media/profile_edit.a086f758840ae814ecde.svg",
     "static/media/plus_button.svg": "/react-around-auth/static/media/plus_button.d86bb2edc2f6eadb96b7.svg",
     "static/media/save_button_disabled.svg": "/react-around-auth/static/media/save_button_disabled.c7368ac1c77b66ecb230.svg",
-    "main.4647b678.css.map": "/react-around-auth/static/css/main.4647b678.css.map",
+    "main.ade4793d.css.map": "/react-around-auth/static/css/main.ade4793d.css.map",
     "main.1f62b2d8.js.map": "/react-around-auth/static/js/main.1f62b2d8.js.map"
   },
   "entrypoints": [
-    "static/css/main.4647b678.css",
+    "static/css/main.ade4793d.css",
     "static/js/main.1f62b2d8.js"
   ]
 }
